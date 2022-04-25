@@ -57,12 +57,12 @@ def main(args):
 		if not photo_file.suffix.lower() in ['.png','.jpg']:
 			continue
 		else:
-			print(f"Looking at file {photo_file}")
+			print(f"Looking at file {photo_file}", flush=True)
 
 			# modifies global  faces[]
 			face_idx = add_faces(photo_file, faces)
 
-			print(f"{photo_file}\t{face_idx}")
+			print(f"{photo_file}\t{face_idx}", flush=True)
 
 
 
