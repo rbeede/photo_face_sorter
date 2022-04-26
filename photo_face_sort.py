@@ -33,13 +33,19 @@ import glob
 # If filename has a face (only looks at first face in the image) that has been seen before
 # then it returns the index code for that face
 # If filename has no recognized faces then it returns the last index of faces where the new face is stored
+# If filename had no faces returns negative
 def add_faces(filename, existing_faces):
 	image = face_recognition.load_image_file(filename)
-	encoding = face_recognition.face_encodings(image)[0]
-
+	encodings = face_recognition.face_encodings(image)
+    
+    if not encodings:
+        # no faces found so return negative number
+        return -2147483648
+        
+    first_face = encodings[0]
 
 	for i, existing_encoding in enumerate(existing_faces):
-		if face_recognition.compare_faces([existing_encoding], encoding)[0]:
+		if face_recognition.compare_faces([existing_encoding], first_face)[0]:
 			return i  # The face in filename matched a previous filename's face so return the index code
 
 	# Never seen a matching face (new face) so return last index where it is stored
