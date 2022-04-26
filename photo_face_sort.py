@@ -35,8 +35,8 @@ import glob
 # If filename has no recognized faces then it returns the last index of faces where the new face is stored
 # If filename had no faces returns negative
 def add_faces(filename, existing_faces):
-	image = face_recognition.load_image_file(filename)
-	encodings = face_recognition.face_encodings(image)
+    image = face_recognition.load_image_file(filename)
+    encodings = face_recognition.face_encodings(image)
     
     if not encodings:
         # no faces found so return negative number
@@ -44,39 +44,39 @@ def add_faces(filename, existing_faces):
         
     first_face = encodings[0]
 
-	for i, existing_encoding in enumerate(existing_faces):
-		if face_recognition.compare_faces([existing_encoding], first_face)[0]:
-			return i  # The face in filename matched a previous filename's face so return the index code
+    for i, existing_encoding in enumerate(existing_faces):
+        if face_recognition.compare_faces([existing_encoding], first_face)[0]:
+            return i  # The face in filename matched a previous filename's face so return the index code
 
-	# Never seen a matching face (new face) so return last index where it is stored
-	existing_faces.append(encoding)
-	return len(existing_faces) - 1
+    # Never seen a matching face (new face) so return last index where it is stored
+    existing_faces.append(encoding)
+    return len(existing_faces) - 1
 
 
 def main(args):
-	print(f"Searching directory {args.directory} for images and faces")
+    print(f"Searching directory {args.directory} for images and faces")
 
-	faces = []
+    faces = []
 
-	for photo_file in Path(args.directory).rglob('*'):
-		# We only want to iterate once so check for multiple file-types here
-		if not photo_file.suffix.lower() in ['.png','.jpg']:
-			continue
-		else:
-			print(f"Looking at file {photo_file}", flush=True)
+    for photo_file in Path(args.directory).rglob('*'):
+        # We only want to iterate once so check for multiple file-types here
+        if not photo_file.suffix.lower() in ['.png','.jpg']:
+            continue
+        else:
+            print(f"Looking at file {photo_file}", flush=True)
 
-			# modifies global  faces[]
-			face_idx = add_faces(photo_file, faces)
+            # modifies global  faces[]
+            face_idx = add_faces(photo_file, faces)
 
-			print(f"{photo_file}\t{face_idx}", flush=True)
+            print(f"{photo_file}\t{face_idx}", flush=True)
 
 
 
 if __name__ == "__main__":
-	parser = argparse.ArgumentParser(description='https://www.rodneybeede.com/')
+    parser = argparse.ArgumentParser(description='https://www.rodneybeede.com/')
 
-	parser.add_argument('--directory', required=True, action='store', type=Path, help='Directory to recurse for image files')
+    parser.add_argument('--directory', required=True, action='store', type=Path, help='Directory to recurse for image files')
 
-	args = parser.parse_args()
+    args = parser.parse_args()
 
-	main(args)
+    main(args)
