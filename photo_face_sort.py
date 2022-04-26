@@ -49,7 +49,7 @@ def add_faces(filename, existing_faces):
             return i  # The face in filename matched a previous filename's face so return the index code
 
     # Never seen a matching face (new face) so return last index where it is stored
-    existing_faces.append(encoding)
+    existing_faces.append(first_face)
     return len(existing_faces) - 1
 
 
